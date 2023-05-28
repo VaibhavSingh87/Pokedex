@@ -30,7 +30,7 @@ const App = () => {
                 
                 <input placeholder="Enter a Pokemon e.g. Charizard" value={search} onChange={(e)=>{setSearch(e.target.value)}}/>
                 
-                    <button onClick={() => searchPokemon(search)}><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button id="btn" onClick={() => searchPokemon(search)}><i class="fa-solid fa-magnifying-glass"></i></button>
                 
             </div>
             
@@ -55,5 +55,12 @@ const App = () => {
         </div>
     );
 }
-
+document.addEventListener("keypress", function(event)
+{
+    if(event.key === "Enter")
+    {
+        document.getElementById("btn").click();
+    }
+}
+);
 export default App;
