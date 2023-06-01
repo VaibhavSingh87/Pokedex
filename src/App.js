@@ -30,7 +30,7 @@ const App = () => {
                 
                 <input placeholder="Enter a Pokemon e.g. Charizard" value={search} onChange={(e)=>{setSearch(e.target.value)}}/>
                 
-                    <button id="btn" onClick={() => searchPokemon(search)}><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button id="btn" onClick={() => {searchPokemon(search);setSearch("")}}><i class="fa-solid fa-magnifying-glass"></i></button>
                 
             </div>
             
