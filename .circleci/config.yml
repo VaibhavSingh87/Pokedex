@@ -1,0 +1,29 @@
+version: 2.1
+executors:
+  aws:
+    docker:
+      - image: amazon/aws-cli:latest
+    environment:
+      AWS_DEFAULT_REGION: ap-south-1 # Replace with your AWS region
+
+jobs:
+  deploy:
+    executor: aws
+    steps:
+      - checkout
+      
+      - run:
+          name: Upload to S3
+          command: |
+            aws --region ap-south-1 deploy push --application-name Deployment_App --s3-location s3://code-bucket-87/app.zip
+      
+      # Create deployment in CodeDeploy
+      - run:
+          name: Create CodeDeploy Deployment
+          command: |
+            aws --region ap-south-1 deploy create-deployment --application-name Deployment_App --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name Application_Deployment_Group --s3-location bucket=code-bucket-87,bundleType=zip,key=app.zip
+
+workflows:
+  deploy:
+    jobs:
+      - deploy
