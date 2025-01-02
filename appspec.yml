@@ -1,0 +1,27 @@
+version: 0.0
+os: linux
+files:
+  - source: ./
+    destination: /home/ec2-user/mern-app
+permissions:
+  - object: /home/ec2-user/mern-app
+    owner: ec2-user
+    group: ec2-user
+    mode: 755
+hooks:
+  BeforeInstall:
+    - location: ./scripts/install_dependencies.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: ./scripts/middle.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: ./scripts/start_server.sh
+      timeout: 300
+      runas: root
+
+# aws --region ap-south-1 deploy push --application-name Deployment_App --s3-location s3://code-bucket-87/app.zip
+
+# aws --region ap-south-1 deploy create-deployment --application-name Deployment_App --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name Application_Deployment_Group --s3-location bucket=code-bucket-87,bundleType=zip,key=app.zip
